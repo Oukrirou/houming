@@ -1,0 +1,65 @@
+.niveau {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    margin-left: 10%;
+}
+.niveau > button {
+    padding: 30px;
+    padding-left: 41px;
+    border-radius: 9px;
+    margin-right: 80px;
+}
+.etudiant > .niveau > .pre {
+   background: rgb(95, 94, 94);
+}
+
+.etudiant {
+  width: 85%;
+  border-left: 0.5px solid gray;
+  height: 100vh;
+}
+.etudiant > table > tr > .profl {
+  border: none;
+  background: transparent;
+  width: 2%;
+}
+.etudiant > .promo {
+  margin-top: 3%;
+  margin-left: 40%;
+}
+.etudiant > table > tr > .profl:hover{
+  cursor: pointer;
+  color: rgb(155, 155, 196);
+}
+.niveau > button:hover {
+    background: #ccf2f4;
+    cursor: pointer ;
+    box-shadow: 2px 4px 2px 0 gray;
+}
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 95%;
+    margin-left: 3%;
+    margin-top: 3%;
+  }
+  td, th {
+    border: 1px solid #d8cccc;
+    text-align: left;
+    padding: 8px;
+  }
+  tr:nth-child(even) {
+    background-color: rgb(131, 125, 125);
+    opacity: 83%;
+  }
+  /* the screen on mobile  :  */
+  @media only screen and (max-width: 800px) {
+    .niveau > button {
+        padding: 5px;
+        padding-left: 21px;
+        border-radius: 9px;
+        margin-right: 20px;
+        
+    }
+  }

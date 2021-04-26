@@ -1,0 +1,26 @@
+
+
+.sidbar {
+    width: 79%;
+    padding-left: 15px;
+    margin-top: 24%;
+    height: 50vh;
+    margin-left: 17px;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    
+}
+.sidbar > .lnks {
+    color: white;
+    margin-right: 3px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+}
+.sidbar > .lnks:hover{
+    color: gray;
+}
+
+

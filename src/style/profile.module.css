@@ -1,0 +1,69 @@
+
+.profile{
+      width: 85%;
+      overflow-x: hidden;
+      border-left: 0.5px solid gray;
+      height: 100vh;
+}
+.container{
+     margin-top: 3%; 
+     width: 100%; 
+     margin-left: 10%;
+}
+.container > img {
+      border-radius: 50%;
+      width: 10%;
+}
+
+.edit {
+      position: absolute;
+      margin-top:23px ;
+      margin-left: 130vh;
+      width: 110px;
+      padding: 3px;
+      border-radius: 9px ;
+      background: transparent;
+      outline: none ;
+      color: white;
+}
+.edit:hover {
+      background: #ccf2f4;
+      cursor: pointer ;
+      box-shadow: 2px 4px 2px 0 gray;
+      color: black;
+}
+.infos {
+      margin-left: 20%;
+      margin-top: 2%;
+      display: flex;
+      width: 33%;
+      background-color: rgba(49, 48, 48, 0.466);
+      padding: 11px;
+      border-radius: 6px;
+}
+.infos > .inputs {
+      display: flex;
+      flex-direction: column;
+      margin-left: 72px;
+}
+.infos > .inputs > input{
+      border: none;
+      margin-top: 5.5px;
+      background: transparent;
+      color: whitesmoke;
+}
+.infos > .inputs > input:focus {
+      border: none;
+      outline: none;
+}
+.infos > .labels,.inputs {
+      display: flex;
+      flex-direction: column;
+}
+@media only screen and (max-width: 800px) {
+      .edit {
+        background-color: lightblue;
+        margin-left: 50%;
+        margin-bottom: 56%;
+      }
+}

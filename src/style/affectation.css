@@ -1,0 +1,45 @@
+.aff {
+    width: 90%;
+    margin-top: 3%;
+    height: 100vh;
+}
+.aff > .titre {
+    margin-right: 40%;
+    font-size: 19px;
+
+}
+.affectation {
+    margin-top: 6%;
+    display: flex;
+    margin-left: 20%;
+    flex-direction: column;
+    background: rgba(46, 45, 45, 0.5);
+    width: 50%;
+    height: 50%;
+    border-radius: 11px;
+    justify-content: center;
+    align-items: center;
+}
+.affectation > div {
+    margin-top :5% ;
+    width: 90% ;
+    margin-left: 50%;
+}
+.affectation > div > input {
+    width: 41%;
+} 
+
+.affectation > div > select {
+    width: 42%;
+}
+.affectation > div > button {
+    margin-left: 13%;
+    width: 17%;
+    border-radius: 11px;
+    padding: 3px;
+}
+.affectation > div > button:hover {
+    background: rgba(54, 53, 53, 0.63);
+    color: honeydew;
+    cursor: pointer;
+}

@@ -2,38 +2,39 @@ import React from 'react'
 import style from '../style/profile.module.css'
 import profile from '../images/profile.PNG'
 import {useState} from 'react' 
+import { useParams } from 'react-router';
+import axios from 'axios'
 
 
 export default function Profile() {
    const [buttonText , setButtonText ] = useState("Edit");
-   // the information management : 
-   const inf = {
-        nom : "Oukrirou" ,
-        prenom : "oukrirou" ,
-        matricle : "123456" ,
-        email : "ayouboukrirou@gmail.com" ,
-        tel : "6574934875" ,
-        Promo : " 2 eme annee" ,
-        filier : "g info " ,
-        gender : "M" ,
-        password : "jlkfdkfhg" ,
-        departement : "D" ,
-        Etage : "2" ,
-        chambre : "342"
-      } 
-    const changeText = () => {
+   const [hamou,sethamou] = useState();
+   const {id} = useParams()
+   const changeText = () => {
         if (buttonText==="Edit") {
           setButtonText("Enregistrer");
         }
         else {
           setButtonText("Edit") ;
         }
-   }  
-
+   }
+   setTimeout(() => {
+   const configuration = {
+      headers : {
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS"        
+      }
+      }
+      axios.get("http://localhost:3307/etudiant/",configuration )
+          .then(res =>{
+              console.log(res.data)
+              sethamou(res.data[id].Nom)
+  });     
+  },100);
   return (
         <> 
         <div className={style.profile} >  
-            <button className={style.edit} onClick={() => changeText()} > {buttonText} </button>
+            <button className={style.edit} onClick={() =>changeText()}>{buttonText} </button>
             <div className={style.container} >
                 <img src= {profile} alt=""/>
              </div>
@@ -52,19 +53,19 @@ export default function Profile() {
                 <label htmlFor="Etage"> <strong> Etage :  </strong> </label>
                 <label htmlFor="chambre"> <strong>Chambre : </strong> </label>
               </div>
-              <div  className={style.inputs}  >
-                <input name="nom" type="text" value={inf.nom}/>
-                <input name="Prenom" type="text" value={inf.prenom}  />
-                <input name="Matricule" type="text" value={inf.matricle}/>   
-                <input name="Email" type="text" value={inf.email}/>               
-                <input name="Tel" type="text" value={inf.tel}   />   
-                <input name="Promotion" type="text" value={inf.Promo} />       
-                <input name="Filiere" type="text" value={inf.filier} />   
-                <input name="Sexe" type="text" value={inf.gender}  />
-                <input name="Motdepasse" type="password" value={inf.password}  />
-                <input name="Batiment" type="text" value={inf.departement} />
-                <input name="Etage" type="text" value={inf.Etage}  />
-                <input name="Chambre" type="text" value={inf.chambre}  />
+              <div  className={style.inputs}>
+                <input name="nom" type="text" placeholder={hamou}/>
+                <input name="Prenom" type="text" value={id}  />
+                <input name="Matricule" type="text" value={id}/>   
+                <input name="Email" type="text" value={id}/>               
+                <input name="Tel" type="text" value={id}   />   
+                <input name="Promotion" type="text" value={id} />       
+                <input name="Filiere" type="text" value={id} />   
+                <input name="Sexe" type="text" value={id}  />
+                <input name="Motdepasse" type="password" value={id}  />
+                <input name="Batiment" type="text" value={id} />
+                <input name="Etage" type="text" value={id}  />
+                <input name="Chambre" type="text" value={id}  />
               </div>  
             </div>
         </div>

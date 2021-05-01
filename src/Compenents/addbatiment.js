@@ -9,7 +9,7 @@ export class addbatiment extends Component {
     constructor () {
         super();
         this.state = {
-            showModal : false
+            showModal : false 
         };
         this.handleOpenModal = this.handleOpenModal.bind(this);
         this.handleCloseModal = this.handleCloseModal.bind(this);
@@ -17,7 +17,6 @@ export class addbatiment extends Component {
     handleOpenModal () {
         this.setState({ showModal: true });
       }
-      
     handleCloseModal () {
         this.setState({ showModal: false });
       }

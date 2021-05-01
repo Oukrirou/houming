@@ -3,7 +3,8 @@ import styles from '../style/login.module.css'
 import logo from '../images/logo.png'
 import LockIcon from '@material-ui/icons/Lock';
 
-export default function login() {
+export default function Login() {
+ 
     return (
         <div className={styles.login}>
             <img src={logo} alt="" className={styles.logo} />
@@ -21,7 +22,7 @@ export default function login() {
                     <p className="oubl" >  Mot de passe oubliee  !</p>
                 </div>
                 <div>
-                    <button type="submit" > Se connecter </button>
+            <button type="submit" > Se connecter  </button>
                 </div>
             </form>
         </div>

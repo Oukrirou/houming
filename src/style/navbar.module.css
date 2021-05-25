@@ -3,7 +3,8 @@
     justify-content: space-between;
     border-bottom: 0.5px solid gray ;
     padding-bottom: 3px;
-    background-color: transparent;
+    background: rgb(71, 70, 70);
+    box-shadow: 2px 3px 2px rgb(119, 116, 116);
     color: white;
 }
 .rightsid {
@@ -19,10 +20,9 @@
     border-radius: 50%;
     margin-left: 10px;
 }
-
 .logo{
     margin-top: 0%;
-    margin-left: 3%;
+    margin-left: 4.2%;
 }
 .profile:hover{
     cursor: pointer;

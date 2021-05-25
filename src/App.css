@@ -13,8 +13,9 @@
 }
 body {
     
-  background: url('images/tariq.PNG');
+  /* background: url('images/tariq.PNG'); */
   background-size: cover;
+  background: rgb(206, 203, 203);
   background-repeat: no-repeat;
 }
 .container {

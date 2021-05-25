@@ -6,10 +6,13 @@ import { useParams } from 'react-router';
 import axios from 'axios'
 
 
+
 export default function Profile() {
    const [buttonText , setButtonText ] = useState("Edit");
-   const [hamou,sethamou] = useState();
+   const [hamou,sethamou] = useState([]);
    const {id} = useParams()
+   const level = id.substr(id.length-2, id.length-1) ;
+
    const changeText = () => {
         if (buttonText==="Edit") {
           setButtonText("Enregistrer");
@@ -19,18 +22,18 @@ export default function Profile() {
         }
    }
    setTimeout(() => {
-   const configuration = {
+    const configuration = {
       headers : {
           "Access-Control-Allow-Origin": "*",
           "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS"        
       }
       }
-      axios.get("http://localhost:3307/etudiant/",configuration )
+          axios.get("http://localhost:3307/etudiant/"+ level +"/",configuration )
           .then(res =>{
-              console.log(res.data)
-              sethamou(res.data[id].Nom)
-  });     
+              sethamou(res.data)
+          });      
   },100);
+
   return (
         <> 
         <div className={style.profile} >  
@@ -38,8 +41,9 @@ export default function Profile() {
             <div className={style.container} >
                 <img src= {profile} alt=""/>
              </div>
+           
             <div className={style.infos} >
-              <div className={style.labels}  >
+              <div className={style.labels}>
                 <label htmlFor="nom"> <strong>Nom : </strong></label>
                 <label htmlFor="Prenom"><strong>Prenom :</strong> </label>
                 <label htmlFor="Matricule"> <strong>Maticule</strong> </label>
@@ -54,7 +58,7 @@ export default function Profile() {
                 <label htmlFor="chambre"> <strong>Chambre : </strong> </label>
               </div>
               <div  className={style.inputs}>
-                <input name="nom" type="text" placeholder={hamou}/>
+                <input name="nom" type="text" placeholder={hamou[id].Nom}/>
                 <input name="Prenom" type="text" value={id}  />
                 <input name="Matricule" type="text" value={id}/>   
                 <input name="Email" type="text" value={id}/>               

@@ -9,7 +9,6 @@ export default function navbar(props) {
             <dir className={style.nav} >
                <div className={style.logo} > <img src={logo} alt=""/> </div>
                <div className={style.rightsid} >
-                   <div> <input className={style.searchinput}  type="text"/> </div>
                    <div className={style.admin} >  {props.type} </div>
                    <div className={style.profile} > <img src={profile} alt=""/>  </div>
                </div>

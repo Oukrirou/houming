@@ -9,7 +9,6 @@ const SearchBox= ({searchfield ,searchChange}) =>{
                type='search' 
                placeholder='batiment name '
                onChange= {searchChange} 
-               
             />
         </div>
     );

@@ -4,9 +4,20 @@
     height: 100vh;
 }
 .aff > .titre {
-    margin-right: 40%;
+    margin-right: 45;
     font-size: 19px;
+    color: black;
 
+}
+.forms {
+    display: flex;
+}
+.forms > form:nth-child(2) {
+    margin-left: 4%;
+    margin-top: 6%;
+   
+    width: 20%;
+    border-radius: 11px;
 }
 .affectation {
     margin-top: 6%;
@@ -15,7 +26,7 @@
     flex-direction: column;
     background: rgba(46, 45, 45, 0.5);
     width: 50%;
-    height: 50%;
+    height: 60%;
     border-radius: 11px;
     justify-content: center;
     align-items: center;
@@ -24,6 +35,9 @@
     margin-top :5% ;
     width: 90% ;
     margin-left: 50%;
+}
+.affectation > div >span> .validate {
+    margin-top: 29px;
 }
 .affectation > div > input {
     width: 41%;

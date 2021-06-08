@@ -1,5 +1,5 @@
 import React from 'react';
-import '../style/SearchBox.css';
+import './SearchBox.css';
 
 const SearchBox= ({searchfield ,searchChange}) =>{
     return (
@@ -9,9 +9,11 @@ const SearchBox= ({searchfield ,searchChange}) =>{
                type='search' 
                placeholder='batiment name '
                onChange= {searchChange} 
+               
             />
         </div>
     );
 }
+
 export default SearchBox;
 //onChange= {searchChange}

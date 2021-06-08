@@ -2,11 +2,14 @@ import './App.css';
 import React from 'react'
 import Etudiant from './Compenents/etudiant'
 import Nav from './Compenents/navbar'
-import Profile from './Compenents/profile'
 import Addbatiment from './Compenents/addbatiment'
+import Liberer from './Compenents/liberer'
 import Sidbar from './Compenents/sidbar'
+import Chambers from './Compenents/chambrs'
 import Affectation from './Compenents/affectation'
+import AffecterParPromotion from './Compenents/affecterParPromotion'
 import {BrowserRouter as Router,Switch ,Route} from 'react-router-dom'
+
 
 function App() {
   return (
@@ -26,21 +29,30 @@ function App() {
                    <Addbatiment/>
                   </div>
                 </Route> 
+                <Route path="/chambre">
+                  <Nav/>
+                  <div className="content">
+                   <Sidbar/>
+                   <Liberer/>
+                  </div>
+                </Route> 
                 <Route path="/liberer">
                   <Nav/>
                   <div className="content">
                    <Sidbar/>
                    <Affectation/>
                   </div>
-                </Route> 
-                <Route path="/profiter/:id">
+                </Route>
+                <Route path="/affectationglobal">
                   <Nav/>
-                  <div className="content">
-                   <Sidbar/>
-                   <Profile/>
-                  </div>
-                </Route> 
-              
+                  
+                   <AffecterParPromotion/>
+                  
+                </Route>
+                <Route path="/chambers">
+                   <Nav/>
+                   <Chambers/>
+                </Route>
           </Switch>
      </Router>
   );

@@ -133,7 +133,7 @@ export default function Addbatiment() {
                                 </div>
                     </ReactModal>
                     <ReactModal isOpen={showeditModal} className="modal" >
-                           <div className="title" > <strong>Remplir le formulaire pour Modifier ce batiment </strong>  </div>
+                           <div className="title" ><strong>Remplir le formulaire pour Modifier ce batiment </strong></div>
                            <div className="formulaire">
                                <div className="ajout"  > <strong>  Modifier Batiment </strong> </div>
                                 <div className="batiment" >
@@ -156,7 +156,7 @@ export default function Addbatiment() {
                                     <button onClick={()=>modifier()}  >Modifier</button>
                                     <button onClick={()=>CloseeditModal()}>Annuler</button>
                                 </div>
-                                </div>
+                            </div>
                     </ReactModal>
                 </div>
                 <div className="nour" >
@@ -178,11 +178,10 @@ export default function Addbatiment() {
                             <td>{bratchs[i].NombreChmbre_E}</td>
                             <td>{bratchs[i].Sexe}</td>
                             <td className="buttons" > <button onClick={()=>isdelet(i)}> <DeleteIcon/> </button>
-                             <button onClick={()=>OpeneditModal(i)} ><EditIcon/></button></td>
+                            <button onClick={()=>OpeneditModal(i)} ><EditIcon/></button></td>
                         </tr> 
                       );
                     })}
-                 
                   </table>  
                 </div>  
             </div>

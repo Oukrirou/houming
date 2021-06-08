@@ -72,12 +72,15 @@ table {
     opacity: 83%;
   }
   /*the modal styling */
-  .etudiant >  .modal {
-    width: 50%;
+.etudiant >  .modal {
+    width: 100%;
     background-color: teal;
   }
   #enregistrer {
-    margin-left:678px;
+    margin-left:194px;
+    margin-top: 3%;
+    margin-right: 1%;
+    background-color: green;
     margin-bottom: 6px;
   }
   /* the screen on mobile  :  */

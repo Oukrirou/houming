@@ -9,6 +9,8 @@ import Chambers from './Compenents/chambrs'
 import Affectation from './Compenents/affectation'
 import AffecterParPromotion from './Compenents/affecterParPromotion'
 import {BrowserRouter as Router,Switch ,Route} from 'react-router-dom'
+import AppH from './AppH';
+import AppEleve from './AppEleve';
 
 
 function App() {
@@ -52,6 +54,13 @@ function App() {
                 <Route path="/chambers">
                    <Nav/>
                    <Chambers/>
+                </Route>
+                <Route path="/app">
+                   <Nav/>
+                   <AppH/>
+                </Route>
+                <Route path="/">
+                   <AppEleve/>
                 </Route>
           </Switch>
      </Router>

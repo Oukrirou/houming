@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import SearchBox from './SearchBox/SearchBox';
 import BatimentData from './batimentData';
 import Batiments from './Batimentss';
+import '../style/Chambrs.css';
 
 export  default class Chambrs extends Component {
     constructor(){

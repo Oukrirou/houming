@@ -1,6 +1,6 @@
 import React from 'react';
 import Etage from './Etage/Etage'
-import './batiment.css';
+import './batimentH.css';
 
 
 const Batiment=(props) =>{

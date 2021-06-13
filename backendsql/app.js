@@ -1,11 +1,19 @@
 const express = require('express') ;
 var mysql = require('mysql') ;
 const cors = require('cors') ;
+
+const Upload = require('express-fileupload');
+const  BodyParser = require('body-parser');
+
 const app = express() ;
 
 
 app.use(express.json());
+app.use(BodyParser.json());
+app.use(Upload());
 app.use(cors());
+
+
 var con = mysql.createConnection({
     host : "localhost",
     user : "root",
@@ -20,9 +28,13 @@ class Etudiant{
         this.classmement=classmement;
         this.info=info;
         this.idChombre=-1;
+        this.serie='';
     }
     setIdChombre=(idChombre)=>{
         this.idChombre=idChombre ;
+    }
+    setSerieChombre=(serie)=>{
+        this.serie=serie ;
     }
 }
 
@@ -131,6 +143,7 @@ class Etage {
     affecterEtudiant(idChombre , etudiant){
         var chombre = this.chercherChombre(idChombre);
         etudiant.setIdChombre(idChombre);
+        etudiant.setSerieChombre(chombre.serie);
         chombre.addEtudiant(etudiant);   
     }
 
@@ -196,7 +209,7 @@ class Batiment {
     ajouterChombreEtage(idEtage ,chombre){
         var etage = this.Etages[idEtage];
         etage.addChombre(chombre);
-        console.log('ADD CHOMBRE WITH SUCCES !')
+        //console.log('ADD CHOMBRE WITH SUCCES !')
         // this.Etages[idEtage].addChombre(chombre)
     }
 
@@ -209,8 +222,8 @@ class Batiment {
             if(this.Etages[ichoix].isDisponibleEtage()){
                 idChombre =this.Etages[ichoix].getDispChombre();         
                 this.Etages[ichoix].affecterEtudiant(idChombre, etudiant) ;
-                console.log('AFFECTATION AVEC SUCCES !')
-                console.log('['+etudiant.matricule+']'+'-------------->'+'[Etage = '+ichoix+']'+'------------>[chombre :'+idChombre+']')
+                console.log(' AFFECTATION AVEC SUCCES !          ')
+                console.log(' Hey from  '+etudiant.info+' [ je suis dans '+etudiant.serie+']'+'---->'+'[Etage = '+ichoix+']'+'---->[chombre :'+idChombre+']')
                 
                 break ;
                      
@@ -284,9 +297,9 @@ class GestionaireBatiment{
         if(ListeOfChombre === []){
             return ;
         }
-        console.log(1,listBatimentInfo)
+       
          this.ajouterListOfChombre(ListeOfChombre);
-        console.log(2 ,ListeOfChombre)
+        
     }
 
 
@@ -769,7 +782,7 @@ con.connect(function(err) {
 
             )       
             
-            console.log(999 ,listBatimentInfo)
+            console.log(999 ,'initialiser les batiments')
             gestionBatiment.init(listBatimentInfo)
 
         })
@@ -796,10 +809,46 @@ con.connect(function(err) {
             )       
             
             
-             console.log(888 ,listChombre)
+             console.log(888 ,"ajouter les chambres a des batiment deja kaynin")
             gestionBatiment.ajouterListOfChombre(listChombre)
-            console.log(gestionBatiment.ListBatiment)
         })
+
+           // affecter des etudiant a une chombre dapres leur choix ;
+        /// listEtudiantEtLeurChoix =[{etudiant ,choix}]
+        app.get("/affectationAuxBatiment",(req,res)=>{
+            var listEtudiantEtLeurChoix =[];
+            const p = '1m'
+            ///req.body.promotion ;
+            const t = 'femme'
+            ///req.body.type ;
+            //const b = req.body.batiment ;
+
+           /// SELECT etudiant.Matricule ,etudiant.classement ,etudiant.Prenom  ,choixetage.Choix1 ,choixetage.Choix2 ,choixetage.Choix3,choixetage.Choix4,choixetage.Choix5
+           /// FROM etudiant , choixetage 
+           /// WHERE (etudiant.Promotion='1m' and etudiant.Sexe='femme' ) and etudiant.Matricule =choixetage.MatriculeE
+          ///  ORDER BY etudiant.classement ;
+            var q ="SELECT etudiant.Matricule ,etudiant.classement ,etudiant.Prenom  ,choixetage.Choix1 ,choixetage.Choix2 ,choixetage.Choix3,choixetage.Choix4,choixetage.Choix5" ;
+                    q=q+" FROM etudiant , choixetage";
+                    q=q+" WHERE (etudiant.Promotion= ? and etudiant.Sexe= ? ) and etudiant.Matricule =choixetage.MatriculeE";
+                    q=q+" ORDER BY etudiant.classement ";
+            con.query(q,[p,t],function (err, result, fields) {
+                if (err) throw err;
+                result.forEach(etudChoix =>{
+                    listEtudiantEtLeurChoix.push(
+                        {
+                            etudiant : new Etudiant(etudChoix.Matricule ,etudChoix.classement ,etudChoix.Prenom),
+                            choix : [etudChoix.Choix1 ,etudChoix.Choix2 , etudChoix.Choix3 ,etudChoix.Choix4 ,etudChoix.Choix5 ]
+
+                        }
+                    )
+                })
+                const idBatiment = 0 ;
+                console.log(listEtudiantEtLeurChoix);
+                gestionBatiment.affectteEtudiant(idBatiment , listEtudiantEtLeurChoix );
+                res.send(result);
+                
+            });
+        });
         
         
         
@@ -1064,7 +1113,319 @@ app.post("/laylay",(req,res) =>{
             res.send(result)
         });
     })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    //partie etudiant
+    const database={
+        users:[],
+        admins:[]
+    
+    }
+    
+    const qe = "SELECT * FROM `etudiant` " ;
+    con.query(qe ,function (err, result, fields) {
+    if (err) throw err;
+    result.forEach(r=>{
+        database.users.push(
+            {   
+                name : r.Nom ,
+                prenom :r.Prenom ,
+                matricle : r.Matricule ,
+                email : r.Email  ,
+                numero : r.Telephone  ,
+                Promotion : r.Promotion ,
+                filiere : r.Filiere  ,
+                gender : r.Sexe ,
+                password : r.MotDePasse,
+                Batiment : r.NomBatiment ,
+                chambre : r.NumChambre ,
+                classement :r.classement 
+            }
+
+        );
+
+    })
+
+     });
+
+    //admin table 
+    const qadmin = "SELECT * FROM `adminemi`" ;
+    con.query(qadmin ,function (err, result, fields) {
+    if (err) throw err;
+    result.forEach(r=>{
+        database.admins.push(
+            {   
+                name : r.nomAdmin ,
+                prenom :r.prenomAdmin ,
+           
+                email : r.emailAdmin  ,
+
+                password : r.passAdmin
+            }
+
+        );
+
+    })
+     });
+    
+    //app.use(express.static(__dirname+'/public'))
+    app.get('/',(req ,res)=>{
+        res.send(database.users)
+    
+    });
+    
+    
+    app.put('/updateProfile',(req ,res)=>{
+        const {matricle ,email , numero} =req.body;
+        let found =false ;
+        database.users.forEach(user =>{
+            if(user.matricle===matricle ){
+                found=true ;
+
+                const q = "UPDATE `etudiant` SET `Email`=?,`Telephone`=? WHERE Matricule=?" ;
+                con.query(q,[email , numero , matricle],function (err, result, fields) {
+                    if (err) throw err;
+                    console.log("Votre donnez en bien enregistrer")
+                    res.json("Votre donnez en bien enregistrer")
+                });
+                
+               
+            }
+            
+        })
+        if (!found){
+            res.json('echec');
+        }
+    })
+      
+    
+    
+    app.put('/Choix', (req,res)=>{
+        const {matricle, choix} =req.body;
+
+        const choix1 =parseInt(choix.choix1);
+        const choix2 =parseInt(choix.choix2);
+        const choix3 =parseInt(choix.choix3 );
+        const choix4 =parseInt(choix.choix4);
+        const choix5 =parseInt(choix.choix5);
+
+        let found =false ;
+        console.log([choix1, choix2 , choix3 , choix4 , choix5 , matricle])
+        database.users.forEach(user =>{
+            if(user.matricle===matricle){
+                console.log('coucou')
+                found=true ;
+                const q = "UPDATE `choixetage` SET `Choix1`=?,`Choix2`=?,`Choix3`=?,`Choix4`=?,`Choix5`=? WHERE MatriculeE=?" ;
+                con.query(q,[choix1, choix2 , choix3 , choix4 , choix5 , matricle],function (err, result, fields) {
+                    if (err) throw err;
+                    console.log("eMAIL AND PHONE CHANGE")
+                    res.send("Votre donnez en bien enregistrer")
+                });
+                return res.json("succés");
+            }
+        })
+        if (!found){
+            res.status(400).json('error not found');
+        }
+    
+    })
+
+    app.get('/choix/:matricle', (req,res)=>{
+        const {matricle} =req.params;
+
+        let found =false ;
+        database.users.forEach(user =>{
+            if(user.matricle ===parseInt( matricle)){
+                found=true ;
+                const q = "SELECT * FROM `choixetage` WHERE MatriculeE ="+user.matricle ;
+                con.query(q,function (err, result, fields) {
+                    if (err) throw err;
+
+                    choix={
+                        choix1 : result[0].Choix1,
+                        choix2 : result[0].Choix2,
+                        choix3 : result[0].Choix3,
+                        choix4 : result[0].Choix4,
+                        choix5 : result[0].Choix5
+                        
+                    }
+
+                    res.send(choix)
+                });
+              
+            }
+        })
+        if (!found){
+            res.status(400).json('error not found');
+        }
+    
+    })
+    
+    
+    
+    
+    app.get('/download', function(req, res){
+        const file = `${__dirname}/upload-folder/Note_pour_Inscriptions.docx`;
+        res.download(file); 
+      });    
+
+
+    app.post('/signin' ,(req,res)=>{
+        const {email , password} =req.body;
+        let foundEleve =false ;
+        let foundAd =false ;
+        database.users.forEach(user =>{
+            if(user.email===email && user.password=== password){
+                foundEleve=true ;
+                return res.json(user);
+            }
+        })
+        database.admins.forEach(user =>{
+            if(user.email===email && user.password=== password){
+                foundAd=true ;
+                return res.json('admin');
+            }
+        })
+        if ((!foundEleve) && (!foundAd) ){
+            res.json("echec");;
+        }
+    
+    })
+    
+    
+    app.post('/recus', (req,res)=>{
+        if(req.files){
+            console.log(req.files);
+            var file = req.files.myFile ;
+            var fileName =file.name;
+            console.log(fileName);
+            file.mv('./uploads/'+fileName ,(err)=>{
+                if(err){
+                    res.json(err)
+                }else{
+                    res.json("File Uploaded")
+                }
+               
+            })
+    
+        }
+    })
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 });
+
 
 app.listen(3307, ()=>{
     console.log('server run on ayoub');

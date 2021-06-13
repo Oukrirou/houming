@@ -1,6 +1,6 @@
 import React from 'react';
 import Chambre from './Chombre/Chambre'
-import './Etage.css';
+import './EtageH.css';
 
 
 const Etage=(props) =>{
@@ -12,6 +12,7 @@ const Etage=(props) =>{
         <Chambre className='chambre'
              key={i} 
              idChambre={props.chambers[i].idChambre }
+             serie={props.chambers[i].serie }
              dispo={props.chambers[i].dispo }
              disableModifier={props.disableModifier}
           />

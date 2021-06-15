@@ -28,13 +28,17 @@ class Etudiant{
         this.classmement=classmement;
         this.info=info;
         this.idChombre=-1;
+        this.etage=-1;
         this.serie='';
     }
     setIdChombre=(idChombre)=>{
-        this.idChombre=idChombre ;
+        this.idChombre=idChombre -1 ;
     }
     setSerieChombre=(serie)=>{
         this.serie=serie ;
+    }
+    setEtage=(etage)=>{
+        this.etage =etage
     }
 }
 
@@ -47,6 +51,10 @@ class Chombre {
         this.capasite=capasite;
         //new add
         this.ListEtudiant=[];
+    }
+    //set dispo chambre
+    setDispo(dispo){
+        this.dispo=dispo ;
     }
 
     // chercher etudiant :
@@ -107,6 +115,8 @@ class Etage {
         }
 
     }
+
+    //set dis
 
 
 
@@ -220,8 +230,10 @@ class Batiment {
         for (let i=0 ;i<choix.length ;i++){
             ichoix = choix[i];   
             if(this.Etages[ichoix].isDisponibleEtage()){
-                idChombre =this.Etages[ichoix].getDispChombre();         
+                idChombre =this.Etages[ichoix].getDispChombre(); 
+                etudiant.setEtage(ichoix);        
                 this.Etages[ichoix].affecterEtudiant(idChombre, etudiant) ;
+                
                 console.log(' AFFECTATION AVEC SUCCES !          ')
                 console.log(' Hey from  '+etudiant.info+' [ je suis dans '+etudiant.serie+']'+'---->'+'[Etage = '+ichoix+']'+'---->[chombre :'+idChombre+']')
                 
@@ -246,6 +258,42 @@ class GestionaireBatiment{
                 return this.ListBatiment[i];
             }
         }
+    }
+
+    //getALLstudentFromBatiment
+    getALLstudentFromBatiment(idBatiment){
+        var ListEtudiantinBat =[];
+        const batiment =this.ListBatiment[idBatiment] ;
+        batiment.Etages.forEach(etage =>{
+            etage.chambers.forEach(chombre =>{
+                if(chombre.ListEtudiant !=[]){
+                    chombre.ListEtudiant.forEach(etudiant =>{
+                        console.log(19999999999, etudiant)
+                        ListEtudiantinBat.push(etudiant);
+                    })
+                }
+                
+            })
+        })
+        return ListEtudiantinBat;
+    }
+    //set dispo chombre 
+    setDispoChombre(dispo , serie){
+
+        this.ListBatiment.forEach(batiment =>{
+            batiment.Etages.forEach(etage =>{
+                    etage.chambers.forEach(chombre =>{
+                        if(chombre.serie ===serie){
+                            chombre.setDispo(dispo)
+                            console.log(chombre.serie , 'CHAANGE TO ', dispo)
+                            return ;
+                        }
+                    })
+                    
+                })
+            })
+
+
     }
 
 
@@ -319,422 +367,11 @@ class GestionaireBatiment{
             batiment.affectteEtudiantAunEtage( etudiantETleurChoix.etudiant ,  etudiantETleurChoix.choix );
             // console.log("AFFECTTER AVEC SUCCES Mr  [ "+etudiantETleurChoix.etudiant.matricule+" ]")
         })
+        return this.getALLstudentFromBatiment(idBatiment);
     }
 }
 
 
-const batimentData = [
-    {
-        nomBatiment:'A',
-        type:'H',
-        Etages:[
-            {
-                idEtage:1,
-                chambres:[
-                    
-                    {
-                        idChmbre:10,
-                        dispo:0
-                    },
-                    {
-                        idChmbre:11,
-                        dispo:0
-                    },
-                    {
-                        idChmbre:12,
-                        dispo:0
-                    },
-                    {
-                        idChmbre:13,
-                        dispo:0
-                    },
-                    {
-                        idChmbre:14,
-                        dispo:0
-                    },
-                    {
-                        idChmbre:15,
-                        dispo:0
-                    },
-                    {
-                        idChmbre:16,
-                        dispo:0
-                    },
-                    {
-                        idChmbre:17,
-                        dispo:0
-                    },
-                    {
-                        idChmbre:18,
-                        dispo:1
-                    },
-                    {
-                        idChmbre:19,
-                        dispo:0
-                    },
-                    {
-                        idChmbre:20,
-                        dispo:0
-                    },
-                    {
-                        idChmbre:21,
-                        dispo:0
-                    },
-                    {
-                        idChmbre:22,
-                        dispo:1
-                    },
-                    {
-                        idChmbre:23,
-                        dispo:0
-                    },
-                    {
-                        idChmbre:24,
-                        dispo:2
-                    }
-                ]
-            },
-            {
-                idEtage:2,
-                chambres:[
-                    {
-                        idChmbre:1,
-                        dispo:0
-                    },
-                    {
-                        idChmbre:2,
-                        dispo:0
-                    },
-                    {
-                        idChmbre:3,
-                        dispo:0
-                    },
-                    {
-                        idChmbre:4,
-                        dispo:0
-                    },
-                    {
-                        idChmbre:5,
-                        dispo:0
-                    },
-                    {
-                        idChmbre:6,
-                        dispo:0
-                    }
-                ]
-            },         
-            {
-                idEtage:3,
-                chambres:[
-                    {
-                        idChmbre:1,
-                        dispo:0
-                    },
-                    {
-                        idChmbre:2,
-                        dispo:0
-                    },
-                    {
-                        idChmbre:3,
-                        dispo:0
-                    },
-                    {
-                        idChmbre:4,
-                        dispo:0
-                    },
-                    {
-                        idChmbre:5,
-                        dispo:0
-                    },
-                    {
-                        idChmbre:6,
-                        dispo:0
-                    }
-                ]
-            }
-        ]
-    },
-    {
-        nomBatiment:'B',
-        type:'H',
-        Etages:[
-            {
-                idEtage:1,
-                chambres:[
-                    {
-                        idChmbre:1,
-                        dispo:0
-                    },
-                    {
-                        idChmbre:2,
-                        dispo:0
-                    },
-                    {
-                        idChmbre:3,
-                        dispo:0
-                    },
-                    {
-                        idChmbre:4,
-                        dispo:0
-                    },
-                    {
-                        idChmbre:5,
-                        dispo:0
-                    },
-                    {
-                        idChmbre:6,
-                        dispo:0
-                    }
-                ]
-            },
-            {
-                idEtage:2,
-                chambres:[
-                    {
-                        idChmbre:1,
-                        dispo:0
-                    },
-                    {
-                        idChmbre:2,
-                        dispo:0
-                    },
-                    {
-                        idChmbre:3,
-                        dispo:0
-                    },
-                    {
-                        idChmbre:4,
-                        dispo:0
-                    },
-                    {
-                        idChmbre:5,
-                        dispo:0
-                    },
-                    {
-                        idChmbre:6,
-                        dispo:0
-                    }
-                ]
-            },         
-            {
-                idEtage:3,
-                chambres:[
-                    {
-                        idChmbre:1,
-                        dispo:0
-                    },
-                    {
-                        idChmbre:2,
-                        dispo:0
-                    },
-                    {
-                        idChmbre:3,
-                        dispo:0
-                    },
-                    {
-                        idChmbre:4,
-                        dispo:0
-                    },
-                    {
-                        idChmbre:5,
-                        dispo:0
-                    },
-                    {
-                        idChmbre:6,
-                        dispo:0
-                    }
-                ]
-            }
-        ]
-    },
-    {
-        nomBatiment:'C',
-        type:'F',
-        Etages:[
-            {
-                idEtage:1,
-                chambres:[
-                    {
-                        idChmbre:1,
-                        dispo:0
-                    },
-                    {
-                        idChmbre:2,
-                        dispo:0
-                    },
-                    {
-                        idChmbre:3,
-                        dispo:0
-                    },
-                    {
-                        idChmbre:4,
-                        dispo:0
-                    },
-                    {
-                        idChmbre:5,
-                        dispo:0
-                    },
-                    {
-                        idChmbre:6,
-                        dispo:0
-                    }
-                ]
-            },
-            {
-                idEtage:2,
-                chambres:[
-                    {
-                        idChmbre:1,
-                        dispo:0
-                    },
-                    {
-                        idChmbre:2,
-                        dispo:0
-                    },
-                    {
-                        idChmbre:3,
-                        dispo:0
-                    },
-                    {
-                        idChmbre:4,
-                        dispo:0
-                    },
-                    {
-                        idChmbre:5,
-                        dispo:0
-                    },
-                    {
-                        idChmbre:6,
-                        dispo:0
-                    }
-                ]
-            },         
-            {
-                idEtage:3,
-                chambres:[
-                    {
-                        idChmbre:1,
-                        dispo:0
-                    },
-                    {
-                        idChmbre:2,
-                        dispo:0
-                    },
-                    {
-                        idChmbre:3,
-                        dispo:0
-                    },
-                    {
-                        idChmbre:4,
-                        dispo:0
-                    },
-                    {
-                        idChmbre:5,
-                        dispo:0
-                    },
-                    {
-                        idChmbre:6,
-                        dispo:0
-                    }
-                ]
-            }
-        ]
-    },
-    {
-        nomBatiment:'TITANIC',
-        type:'F',
-        Etages:[
-            {
-                idEtage:1,
-                chambres:[
-                    {
-                        idChmbre:1,
-                        dispo:0
-                    },
-                    {
-                        idChmbre:2,
-                        dispo:0
-                    },
-                    {
-                        idChmbre:3,
-                        dispo:0
-                    },
-                    {
-                        idChmbre:4,
-                        dispo:0
-                    },
-                    {
-                        idChmbre:5,
-                        dispo:0
-                    },
-                    {
-                        idChmbre:6,
-                        dispo:0
-                    }
-                ]
-            },
-            {
-                idEtage:2,
-                chambres:[
-                    {
-                        idChmbre:1,
-                        dispo:0
-                    },
-                    {
-                        idChmbre:2,
-                        dispo:0
-                    },
-                    {
-                        idChmbre:3,
-                        dispo:0
-                    },
-                    {
-                        idChmbre:4,
-                        dispo:0
-                    },
-                    {
-                        idChmbre:5,
-                        dispo:0
-                    },
-                    {
-                        idChmbre:6,
-                        dispo:0
-                    }
-                ]
-            },         
-            {
-                idEtage:3,
-                chambres:[
-                    {
-                        idChmbre:1,
-                        dispo:0
-                    },
-                    {
-                        idChmbre:2,
-                        dispo:0
-                    },
-                    {
-                        idChmbre:3,
-                        dispo:0
-                    },
-                    {
-                        idChmbre:4,
-                        dispo:0
-                    },
-                    {
-                        idChmbre:5,
-                        dispo:0
-                    },
-                    {
-                        idChmbre:6,
-                        dispo:0
-                    }
-                ]
-            }
-        ]
-    }
-  ];
-  
 
 
 
@@ -817,6 +454,7 @@ con.connect(function(err) {
         /// listEtudiantEtLeurChoix =[{etudiant ,choix}]
         app.get("/affectationAuxBatiment",(req,res)=>{
             var listEtudiantEtLeurChoix =[];
+            const idBatiment = 0 ;
             const p = '1m'
             ///req.body.promotion ;
             const t = 'femme'
@@ -842,7 +480,7 @@ con.connect(function(err) {
                         }
                     )
                 })
-                const idBatiment = 0 ;
+                
                 console.log(listEtudiantEtLeurChoix);
                 gestionBatiment.affectteEtudiant(idBatiment , listEtudiantEtLeurChoix );
                 res.send(result);
@@ -850,10 +488,163 @@ con.connect(function(err) {
             });
         });
         
+        app.get('/affectatiofinal',(req,res)=>{
+                res.json(gestionBatiment.ListBatiment);
+        })
+
+        app.post("/affectationData",(req,res)=>{
+
+            console.log("#####################STARTTTT AFFECTATION #########################") ;
+            var listEtudiantEtLeurChoix =[];
+            const idBatiment = req.body.batiment ;
+            const p =  req.body.level ;
+            ///req.body.promotion ;
+            const t =  req.body.sexe ;
+            ///req.body.type ;
+            //const b = req.body.batiment ;
+
+           /// SELECT etudiant.Matricule ,etudiant.classement ,etudiant.Prenom  ,choixetage.Choix1 ,choixetage.Choix2 ,choixetage.Choix3,choixetage.Choix4,choixetage.Choix5
+           /// FROM etudiant , choixetage 
+           /// WHERE (etudiant.Promotion='1m' and etudiant.Sexe='femme' ) and etudiant.Matricule =choixetage.MatriculeE
+          ///  ORDER BY etudiant.classement ;
+            var q ="SELECT etudiant.Matricule ,etudiant.classement ,etudiant.Prenom  ,choixetage.Choix1 ,choixetage.Choix2 ,choixetage.Choix3,choixetage.Choix4,choixetage.Choix5" ;
+                    q=q+" FROM etudiant , choixetage";
+                    q=q+" WHERE (etudiant.Promotion= ? and etudiant.Sexe= ? ) and etudiant.Matricule =choixetage.MatriculeE";
+                    q=q+" ORDER BY etudiant.classement ";
+            con.query(q,[p,t],function (err, result, fields) {
+                if (err) throw err;
+                result.forEach(etudChoix =>{
+                    listEtudiantEtLeurChoix.push(
+                        {
+                            etudiant : new Etudiant(etudChoix.Matricule ,etudChoix.classement ,etudChoix.Prenom),
+                            choix : [etudChoix.Choix1 ,etudChoix.Choix2 , etudChoix.Choix3 ,etudChoix.Choix4 ,etudChoix.Choix5 ]
+
+                        }
+                    )
+                })
+            
+                const listEtudiant = gestionBatiment.affectteEtudiant(idBatiment , listEtudiantEtLeurChoix );
+                //historique
+                if(listEtudiant){
+                    listEtudiant.forEach(etudiant =>{
+                        console.log(etudiant)
+                        const qh ="INSERT INTO `emihistorique`(`Matricule`, `DateAffectation`, `serieChombre`) VALUES (?,?,?)"
+                        con.query(qh,[etudiant.matricule ,'12/12/2021' ,etudiant.serie],function (err, result, fields) {
+                            if (err) throw err;
+                            console.log("ADD WITH SUCCES IN HISTORIE .")   
+                        });
+                        const qaa ="UPDATE `etudiant` SET `NumChambre`= ? ,`NomBatiment`= ? WHERE Matricule =?"
+                        con.query(qaa,[etudiant.idChombre ,etudiant.etage,etudiant.matricule],function (err, result, fields) {
+                            if (err) throw err;
+                            console.log("AFFECTTER ASSI SEHLAOUI RAK NADI .")   
+                        });
+                    });
+
+                }
+               
+                //
+                
+               
+                console.log("#####################END AFFECTATION #########################") ;
+                
+            });
+            
+           
+           res.json("succes");
+            
+        })
+        app.post("/changeDispo",(req,res)=>{
+            console.log(req.body.dispo , req.body.serieChombre)
+            const dispo = req.body.dispo ;
+            const serieChombre = req.body.serieChombre ;
+            gestionBatiment.setDispoChombre(dispo , serieChombre);
+            if((dispo != -1)){
+                const q ="UPDATE `room` SET `dispo`=? WHERE serie= ?"
+                con.query(q,[dispo , serieChombre],(err,result)=>{
+                    if (err) throw err;
+                    console.log("dispo is change")
+                      
+                
+                
+    
+            })
+            }
+            
+        })
+        
         
         
 
         
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1071,13 +862,7 @@ app.post("/laylay",(req,res) =>{
             res.send(result);
         })
     });
-    //================affectation data : 
-    app.post("/affectationData",(req,res)=>{
-        const batiment = req.body.batiment ;
-        const level = req.body.level ;
-        console.log("affecter les etudiant de niveau :" + level) ;
-        console.log("au Batiment "+ batiment);
-    })
+
     //=============================================
     app.get("/affectationBatiment",(req,res)=>{
         const q = "SELECT * from batiment " ;
@@ -1108,6 +893,14 @@ app.post("/laylay",(req,res) =>{
     app.get('/etudiant/third',(req,res)=>{
         console.log('hellow from the backend to front end !')
         const q = "SELECT * from etudiant where Promotion='3m'" ;
+        con.query(q, function (err, result, fields) {
+            if (err) throw err;
+            res.send(result)
+        });
+    })
+    app.get('/etudiant/allstudent',(req,res)=>{
+        console.log("bonjour ")
+        const q = "SELECT * from etudiant" ;
         con.query(q, function (err, result, fields) {
             if (err) throw err;
             res.send(result)
